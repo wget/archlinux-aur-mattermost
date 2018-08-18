@@ -4,7 +4,7 @@
 
 pkgname=mattermost
 pkgver=5.2.0
-pkgrel=1
+pkgrel=2
 pkgdesc='Open source Slack-alternative in Golang and React'
 arch=('i686' 'x86_64' 'arm' 'armv6h' 'armv7h' 'aarch64')
 url='https://mattermost.com'
@@ -21,6 +21,7 @@ optdepends=(
     'postgresql: SQL server storage'
 )
 backup=("etc/webapps/${pkgname}/config.json")
+install=${pkgname}.install
 source=(
     ${pkgname}-server-${pkgver}.tar.gz::"https://github.com/${pkgname}/${pkgname}-server/archive/v${pkgver}.tar.gz"
     ${pkgname}-webapp-${pkgver}.tar.gz::"https://github.com/${pkgname}/${pkgname}-webapp/archive/v${pkgver}.tar.gz"
@@ -28,11 +29,13 @@ source=(
     "${pkgname}.sysusers"
     "${pkgname}.tmpfiles"
 )
-sha512sums=('3a41cc7dd2bd3eb56c1e85564cb4458431b31540224f4febb183cabf7fe299c08ff89626f000c6e2213c5c96a557f966dba2b7fd92dd99206d0aa9d76fe6502f'
-            '91aa9d2675da4a4eaebcf1f86f70091a5f846c64ca6c9f7460ef3d126d5ea31bdd6826f3b2461e1082e1411d6c53f0c5771e73cd64d654889c4e90a7a66948c2'
-            'cd02b3da86869117554c3c53a657a4b46989ea533b7b47c24fb642ffbd182ce6ecfb16a8ddde3af4d5e8cff0ab41a932753129662e126994e1ad5912545e6eb4'
-            'f08d88fd91e91c8b9996cf33699f4a70d69c8c01783cf7add4781ee3c9c6596839e44c5c39f0ff39a836c6d87544eef179f51de0b037ec7f91f86bac8e24d7cc'
-            'e3ffcf4b86e2ecc7166c1abf92cd4de23d81bad405db0121e513a8d81fea05eec9dd508141b14b208c4c13fbc347c56f01ed91326faa01e872ecdedcc18718f9')
+sha512sums=(
+    '3a41cc7dd2bd3eb56c1e85564cb4458431b31540224f4febb183cabf7fe299c08ff89626f000c6e2213c5c96a557f966dba2b7fd92dd99206d0aa9d76fe6502f'
+    '91aa9d2675da4a4eaebcf1f86f70091a5f846c64ca6c9f7460ef3d126d5ea31bdd6826f3b2461e1082e1411d6c53f0c5771e73cd64d654889c4e90a7a66948c2'
+    'cd02b3da86869117554c3c53a657a4b46989ea533b7b47c24fb642ffbd182ce6ecfb16a8ddde3af4d5e8cff0ab41a932753129662e126994e1ad5912545e6eb4'
+    'f08d88fd91e91c8b9996cf33699f4a70d69c8c01783cf7add4781ee3c9c6596839e44c5c39f0ff39a836c6d87544eef179f51de0b037ec7f91f86bac8e24d7cc'
+    'e3ffcf4b86e2ecc7166c1abf92cd4de23d81bad405db0121e513a8d81fea05eec9dd508141b14b208c4c13fbc347c56f01ed91326faa01e872ecdedcc18718f9'
+)
 
 prepare() {
     # cp cannot copy from a symbolic link to the destination link itself
@@ -139,7 +142,6 @@ package() {
     cp -a dist/${pkgname} "${pkgdir}"/usr/share/webapps/
 
     cd "${pkgdir}"/usr/share/webapps/${pkgname}
-    install -dm755 client/plugins
 
     rm -rf logs
     ln -s /var/log/${pkgname} logs

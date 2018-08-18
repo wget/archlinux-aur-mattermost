@@ -1,0 +1,10 @@
+# arg 1:  the new package version
+post_install() {
+    # Fix files upload and plugins permissions
+    # These instructions cannot be put in the package() function of the
+    # PKGBUILD, because the mattermost user ID is generated dynamically and the
+    # build machine doesn't know it at the time the package is bundled as
+    # a .pkg.tar.
+    chgrp -R mattermost "/var/lib/mattermost" "/usr/share/webapps/mattermost"
+    chmod -R g+s "/var/lib/mattermost"
+}

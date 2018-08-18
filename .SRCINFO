@@ -1,8 +1,9 @@
 pkgbase = mattermost
 	pkgdesc = Open source Slack-alternative in Golang and React
 	pkgver = 5.2.0
-	pkgrel = 1
+	pkgrel = 2
 	url = https://mattermost.com
+	install = mattermost.install
 	arch = i686
 	arch = x86_64
 	arch = arm
